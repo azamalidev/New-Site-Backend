@@ -4,12 +4,6 @@ const { uploadImage } = require('../config/cloudinary');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const admin = require('firebase-admin');
-const serviceAccount = require('../leadgenpro-d5264-firebase-adminsdk-kbj97-baa82de37c.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  // Replace with your Firebase project's ID
-  projectId: 'leadgenpro-d5264',
-});
 
 const registerAndVerifyEmail = async (req, res) => {
   const { email, userType } = req.body;
@@ -68,33 +62,29 @@ const getEmployee = async (req, res) => {
 };
 const setupAccount = async (req, res) => {
   try {
-    if (req?.body.TermAndCond) {
-      const hashedPassword = await bcrypt.hash(req?.body.password, 10);
-      const user = await User.findOneAndUpdate(
-        { email: req?.body.email },
-        {
-          TermAndCond: req?.body.TermAndCond,
-          password: hashedPassword,
-          phone: req?.body.phone,
-          verified: true,
-          name: req?.body.name,
-          profession: req?.body.profession,
-          referBy: req?.body.referBy,
-        }
-      );
-      return {
-        status: true,
-        statusCode: 200,
-        message: 'Congratulations! Your account has been successfully set up.',
-        data: user,
-      };
-    } else {
+    const checkEmail = await User.find({ email: req?.body.email });
+    if (checkEmail.length == 1) {
       return {
         status: false,
         statusCode: 400,
-        message: 'Please checked our Term and Condition',
+        message: 'Email already attached with a account. Please different email',
       };
     }
+    const hashedPassword = await bcrypt.hash(req?.body.password, 10);
+    const newUser = new User({
+      password: hashedPassword,
+      phone: req?.body.phone,
+      email: req?.body.email,
+      verified: true,
+      name: req?.body.name,
+    });
+    const savedUser = await newUser.save();
+    return {
+      status: true,
+      statusCode: 200,
+      message: 'Congratulations! Your account has been successfully set up.',
+      data: savedUser,
+    };
   } catch (err) {
     return {
       status: false,
@@ -158,7 +148,6 @@ const userLogin = async (req, res) => {
 
   try {
     let user;
-    // Find the user by phone
     if (email) {
       user = await User.findOne({ email });
       if (!user) {
@@ -169,7 +158,6 @@ const userLogin = async (req, res) => {
         };
       }
       const varifiedUser = await User.findOne({ email, verified: true });
-
       if (!varifiedUser) {
         return {
           status: false,
