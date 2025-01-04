@@ -6,44 +6,35 @@ const mongoose = require('mongoose');
 const admin = require('firebase-admin');
 
 const registerAndVerifyEmail = async (req, res) => {
-  const { email, userType } = req.body;
-  if (!email) {
-    return { status: false, statusCode: 400, message: 'Email are required.' };
-  }
-  const user = await User.findOne({ email });
+  const { email, address, profilePhoto, CNIC, previousDigree } = req.body;
 
   try {
-    if (!user) {
-      const newUser = new User({
-        email: email,
-        verified: false,
-        userType: userType,
-      });
-      const savedUser = await newUser.save();
-      return {
-        status: true,
-        statusCode: 201,
-        message: 'Verification email sent.',
-        data: savedUser,
-      };
-    } else {
-      return {
-        status: true,
-        statusCode: 201,
-        message: 'Verification email sent.',
-        data: [],
-      };
+    if (!email) {
+      return { status: false, statusCode: 400, message: 'Email are required.' };
     }
+    if (profilePhoto) {
+      try {
+        const url = await uploadImage(
+          req?.body.profilePhoto,
+          'profile_pictures'
+        );
+        profilePhoto = url;
+      } catch (error) {
+        console.error('Error during Cloudinary upload:', error);
+      }
+    }
+    const user = await User.findOneAndUpdate(
+      { email },
+      { address, profilePhoto, CNIC, previousDigree }
+    );
+    return {
+      status: true,
+      statusCode: 201,
+      message: 'Your profile setup successfully',
+      data: user,
+    };
   } catch (error) {
-    if (error.code === 'auth/email-already-exists') {
-      return {
-        status: false,
-        statusCode: 400,
-        message: 'Email is already registered.',
-      };
-    } else {
-      return { status: false, statusCode: 400, message: error.message };
-    }
+    return { status: false, statusCode: 400, message: error.message };
   }
 };
 
@@ -67,7 +58,8 @@ const setupAccount = async (req, res) => {
       return {
         status: false,
         statusCode: 400,
-        message: 'Email already attached with a account. Please different email',
+        message:
+          'Email already attached with a account. Please different email',
       };
     }
     const hashedPassword = await bcrypt.hash(req?.body.password, 10);

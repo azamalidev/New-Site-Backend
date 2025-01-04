@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const http = require('http');
-const requestRoutes = require('./routes/request.routes');
+const quizRoutes = require('./routes/quiz.routes');
 const userRoutes = require('./routes/user.routes');
 const companyRoutes = require('./routes/company.routes');
 const commentRoutes = require('./routes/comment.routes');
@@ -32,7 +32,7 @@ app.use(express.json());
   
 // Routes
 app.use('/users', userRoutes);
-app.use('/request', requestRoutes);
+app.use('/quiz', quizRoutes);
 app.use('/company', companyRoutes);
 app.use('/comment', commentRoutes);
 app.use('/notify', notificationRoutes);
