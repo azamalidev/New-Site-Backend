@@ -4,7 +4,7 @@ const cors = require('cors');
 const http = require('http');
 const quizRoutes = require('./routes/quiz.routes');
 const userRoutes = require('./routes/user.routes');
-const companyRoutes = require('./routes/company.routes');
+const courseRoutes = require('./routes/course.routes');
 const commentRoutes = require('./routes/comment.routes');
 const notificationRoutes = require('./routes/notify.routes');
 
@@ -33,7 +33,8 @@ app.use(express.json());
 // Routes
 app.use('/users', userRoutes);
 app.use('/quiz', quizRoutes);
-app.use('/company', companyRoutes);
+app.use('/course', courseRoutes);
+
 app.use('/comment', commentRoutes);
 app.use('/notify', notificationRoutes);
 
