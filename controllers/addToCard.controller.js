@@ -1,7 +1,7 @@
-const commentService = require('../services/comment.service');
+const commentService = require('../services/addToCard.service');
 // Varify Email
-const addComment = async (req, res) => {
-  const data= await commentService.createComment(req, res);
+const addToCard = async (req, res) => {
+  const data= await commentService.createAddToCard(req, res);
   return res.status(data.statusCode).send({
     status: data.status,
     statusCode: data.statusCode,
@@ -10,8 +10,18 @@ const addComment = async (req, res) => {
   });
 };
 // Get Comment list by request Id 
-const getCommentListById = async (req, res) => {
-  const data= await commentService.getCommentListByRequestId(req, res);
+const getAllAddToCard = async (req, res) => {
+  const data= await commentService.getList(req, res);
+  return res.status(data.statusCode).send({
+    status: data.status,
+    statusCode: data.statusCode,
+    message: data.message,
+    data: data?.data
+  });
+};
+
+const deleteAll = async (req, res) => {
+  const data= await commentService.removeFromCart(req, res);
   return res.status(data.statusCode).send({
     status: data.status,
     statusCode: data.statusCode,
@@ -21,13 +31,5 @@ const getCommentListById = async (req, res) => {
 };
 
 
-const inactiveAllComment = async (req, res) => {
-  const data= await commentService.inactiveCommentByRequestId(req, res);
-  return res.status(data.statusCode).send({
-    status: data.status,
-    statusCode: data.statusCode,
-    message: data.message,
-    data: data?.data
-  });
-};
-module.exports = { addComment, getCommentListById, inactiveAllComment };
+
+module.exports = { addToCard, getAllAddToCard , deleteAll};

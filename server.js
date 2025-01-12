@@ -5,7 +5,7 @@ const http = require('http');
 const quizRoutes = require('./routes/quiz.routes');
 const userRoutes = require('./routes/user.routes');
 const courseRoutes = require('./routes/course.routes');
-const commentRoutes = require('./routes/comment.routes');
+const addToCardRoutes = require('./routes/addToCard.routes');
 const notificationRoutes = require('./routes/notify.routes');
 
 
@@ -35,7 +35,7 @@ app.use('/users', userRoutes);
 app.use('/quiz', quizRoutes);
 app.use('/course', courseRoutes);
 
-app.use('/comment', commentRoutes);
+app.use('/add-to-card', addToCardRoutes);
 app.use('/notify', notificationRoutes);
 
 const port = process.env.PORT || 3000;

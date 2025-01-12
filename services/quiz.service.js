@@ -1,5 +1,5 @@
 const Quiz = require('../models/quiz.model.js');
-const Marks = require('../models/marks.model.js');
+// const Marks = require('../models/marks.model.js');
 const quizRoutes = async (req, res) => {
   try {
     const quiz = new Quiz(req.body);
