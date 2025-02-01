@@ -34,7 +34,6 @@ app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/quiz', quizRoutes);
 app.use('/course', courseRoutes);
-
 app.use('/add-to-card', addToCardRoutes);
 app.use('/notify', notificationRoutes);
 
