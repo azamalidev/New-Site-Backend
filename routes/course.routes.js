@@ -7,5 +7,4 @@ const router = express.Router();
 router.post('/add', authMiddleware, orderController.createCourse);
 router.get('/list', orderController.getCourseList);
 router.get('/get-by-id', orderController.getCourseById);
-
 module.exports = router;
