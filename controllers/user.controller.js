@@ -9,7 +9,15 @@ const varifyEmail = async (req, res) => {
     data: data?.data
   });
 };
-
+// Create Employee
+const createEmployee = async (req, res) => {
+  try {
+    const employee = await userService.createEmployee(req, res);
+    res.status(201).json(employee);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 // Get Employee List
 const getEmployeeList = async (req, res) => {
   const data= await userService.getEmployee(req, res);
@@ -112,6 +120,6 @@ const login = async (req, res) => {
 
 
 
-module.exports = { getEmployeeList,resetPassword,varifyEmail ,accountSetup, getUserList,editProfile,deleteProfile,getUserById,login };
+module.exports = { createEmployee,getEmployeeList,resetPassword,varifyEmail ,accountSetup, getUserList,editProfile,deleteProfile,getUserById,login };
 
 

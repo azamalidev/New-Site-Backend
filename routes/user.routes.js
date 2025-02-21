@@ -15,6 +15,7 @@ router.delete('/delete-profile',authMiddleware, userController.deleteProfile);
 router.get('/get-by-id',authMiddleware, userController.getUserById);
 router.post('/login', userController.login);
 router.get('/get-employees', userController.getEmployeeList);
+router.post('/create-employee', userController.createEmployee);
 
 
 module.exports = router;
