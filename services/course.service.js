@@ -30,15 +30,30 @@ const createCourse = async (req, res) => {
 
 const getAllCourse = async (req, res) => {
   try {
-    const courseList = await Course.find();
+    const courseList = await Course.aggregate([
+      {
+        $lookup: {
+          from: "videos", // 🔹 Name of the Video collection in MongoDB
+          localField: "_id", // 🔹 Course `_id` field
+          foreignField: "courseId", // 🔹 Matching field in Video collection
+          as: "videos", // 🔹 Alias for merged data
+        },
+      },
+    ]);
+
     return {
       status: true,
-      statusCode: 200,
-      message: 'Course list',
+      message: "Course list with videos",
+      statusCode:200,
       data: courseList,
     };
   } catch (error) {
-    return { status: false, statusCode: 400, message: error.message, data: [] };
+    return {
+      status: false,
+      statusCode:400,
+      message: error.message,
+      data: [],
+    };
   }
 };
 
