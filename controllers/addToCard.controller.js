@@ -1,7 +1,7 @@
-const commentService = require('../services/addToCard.service');
+const addToCart = require('../services/addToCard.service');
 // Varify Email
 const addToCard = async (req, res) => {
-  const data= await commentService.createAddToCard(req, res);
+  const data= await addToCart.createAddToCard(req, res);
   return res.status(data.statusCode).send({
     status: data.status,
     statusCode: data.statusCode,
@@ -11,7 +11,7 @@ const addToCard = async (req, res) => {
 };
 // Get Comment list by request Id 
 const getAllAddToCard = async (req, res) => {
-  const data= await commentService.getList(req, res);
+  const data= await addToCart.getList(req, res);
   return res.status(data.statusCode).send({
     status: data.status,
     statusCode: data.statusCode,
@@ -21,7 +21,40 @@ const getAllAddToCard = async (req, res) => {
 };
 
 const deleteAll = async (req, res) => {
-  const data= await commentService.removeFromCart(req, res);
+  const data= await addToCart.removeFromCart(req, res);
+  return res.status(data.statusCode).send({
+    status: data.status,
+    statusCode: data.statusCode,
+    message: data.message,
+    data: data?.data
+  });
+};
+
+
+// Get Comment list by request Id 
+const uploadChallan = async (req, res) => {
+  const data= await addToCart.uploadChallanNow(req, res);
+  return res.status(data.statusCode).send({
+    status: data.status,
+    statusCode: data.statusCode,
+    message: data.message,
+    data: data?.data
+  });
+};
+
+
+const getPaidCourse = async (req, res) => {
+  const data= await addToCart.getMyPaidCourseList(req, res);
+  return res.status(data.statusCode).send({
+    status: data.status,
+    statusCode: data.statusCode,
+    message: data.message,
+    data: data?.data
+  });
+};
+
+const getAllUserPaidCourse = async (req, res) => {
+  const data= await addToCart.getAllPaidCourseList(req, res);
   return res.status(data.statusCode).send({
     status: data.status,
     statusCode: data.statusCode,
@@ -32,4 +65,4 @@ const deleteAll = async (req, res) => {
 
 
 
-module.exports = { addToCard, getAllAddToCard , deleteAll};
+module.exports = { addToCard, getAllAddToCard , deleteAll, uploadChallan, getPaidCourse, getAllUserPaidCourse};
