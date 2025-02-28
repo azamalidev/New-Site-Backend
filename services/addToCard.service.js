@@ -112,6 +112,31 @@ const getMyPaidCourseList = async (req, res) => {
   }
 };
 
+const verifyCourse = async (req, res) => {
+  try {
+    const { id } = req.query;
+    let _id = new mongoose.Types.ObjectId(id); 
+    const updated = await AddToCard.findOneAndUpdate(
+      { _id: _id },
+      { status: 'Verified' }
+    );
+
+    return {
+      status: true,
+      message: 'User enrollment verified successfully',
+      statusCode: 200,
+      data: updated,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      message: error.message,
+      statusCode: 400,
+      data: [],
+    };
+  }
+};
+
 const getAllPaidCourseList = async (req, res) => {
   try {
     const { id: courseId } = req.query;
@@ -261,4 +286,5 @@ module.exports = {
   uploadChallanNow,
   getMyPaidCourseList,
   getAllPaidCourseList,
+  verifyCourse,
 };

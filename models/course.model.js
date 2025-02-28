@@ -14,6 +14,7 @@ const courseSchema = new mongoose.Schema({
   outLine: { type: [String], required: true },
   courseImage: { type: String },
   addedAt: { type: Date, default: Date.now },
+  launchedDate: { type: String, required: false },
 });
 
 module.exports = mongoose.model('Course', courseSchema);

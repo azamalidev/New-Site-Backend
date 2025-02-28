@@ -61,8 +61,18 @@ const getAllUserPaidCourse = async (req, res) => {
     message: data.message,
     data: data?.data
   });
-};
+}
+  const verifiedCourse = async (req, res) => {
+    const data= await addToCart.verifyCourse(req, res);
+    return res.status(data.statusCode).send({
+      status: data.status,
+      statusCode: data.statusCode,
+      message: data.message,
+      data: data?.data
+    });
+
+  }
 
 
 
-module.exports = { addToCard, getAllAddToCard , deleteAll, uploadChallan, getPaidCourse, getAllUserPaidCourse};
+module.exports = { verifiedCourse,addToCard, getAllAddToCard , deleteAll, uploadChallan, getPaidCourse, getAllUserPaidCourse};
