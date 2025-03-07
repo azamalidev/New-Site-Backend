@@ -3,8 +3,6 @@ const bcrypt = require('bcryptjs');
 const { uploadImage } = require('../config/cloudinary');
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
-
-
 const registerAndVerifyEmail = async (req, res) => {
   const { email, address, profilePhoto, CNIC, previousDigree } = req.body;
 
